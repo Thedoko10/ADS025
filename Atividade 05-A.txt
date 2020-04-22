@@ -1,0 +1,47 @@
+a)
+   PROJETO                                      
+   +----------------------------------+         GERENTE
+   |numero_projeto INT NOT NULL PK    |         +----------------------------------+
+   +----------------------------------+\        |numero_gerente INT NOT NULL PK    |
+   |nome_projeto VARCHAR(100) NOT NULL|---------+----------------------------------+
+   |data_inicio_projeto DATE          |/        |nome_gerente VARCHAR(100) NOT NULL|
+   |numero_gerente INT NOT NULL FK    |         +----------------------------------+
+   +----------------------------------+ 
+                        |                  
+                        |
+                        | 
+   PROJETO_EMPREGADO   /|\
+   +--------------------------------------------+
+   |numero_projeto INT NOT NULL PFK             |
+   |numero_empregado INT NOT NULL PFK           |
+   +--------------------------------------------+
+   |horas_trabalhadas_projeto SMALLINT DEFAULT 0|
+   +--------------------------------------------+
+                  \|/
+                   |
+                   |
+   EMPREGADO       |
+   +------------------------------------+         DEPARTAMENTO
+   |numero_empregado INT NOT NULL PK    |         +--------------------------------+
+   +------------------------------------+\        |numero_depto INT NOT NULL PK    |
+   |nome_empregado VARCHAR(100) NOT NULL|---------+--------------------------------+
+   |numero_depto INT FK                 |/        |nome_depto VARCHAR(100) NOT NULL|
+   +------------------------------------+         +--------------------------------+
+
+CREATE TABLE GERENTE(numero_gerente INTEGER NOT NULL, nome_gerente VARCHAR (100) NOR NULL,
+PRIMARY KEY (numero_gerente));
+
+CREATE TABLE DEPARTAMENTO (numero_depto INTEGER NOR NULL, nome_depto VARCHAR (100) NOR NULL,
+PRIMARY KEY (numero_depto));
+
+CREATE TABLE EMPREGADO (numero_empregado INTERGER NOT NULL, nome_empregrado VARCHAR (100) NOR NULL,
+numero_depto INTEGER, PRIMARY KEY (numero_empregado), FOREIGN KEY (numero_depto) REFERENCES DEPARTAMENTO (numero_depto));
+
+CREATE TABLE PROJETO (numero_projeto INTEGER NOT NULL, nome_projeto VARRCHAR (100) NOT NULL,
+data_inicio_projeto DATE, numero_gerante INTEGER NOR NULL, PRIMARY KEY (numero_projeto), 
+FOREIGN KEY (numero_gerente) REFERENCES GERENTE (numero_gerente)
+
+CREATE TABLE PROJETO_EMPREGADO (numero_projeto INTEGER NOT NULL, numero_empregado INTEGER NOT NULL,
+horas_trabalhadas_projeto SMALLINT DEFAULT 0, PRIMARY KEY (numero projeto, numero empregado), 
+FOREIGN KEY (numero_projeto) REFERENCES PROJETO (numero_projeto)
+FOREIGN KEY (numero_empregado) REFERENCES EMPREGADO (numero_empregado));

@@ -1,0 +1,41 @@
+d)
+   MEDICO                                      
+   +---------------------------------+        ESPECIALIDADE
+   |cod_medico INT AI PK             |        +---------------------------------------+
+   +---------------------------------+\       |cod_especialidade INT NOT NULL PK      |
+   |nome_medico VARCHAR(100) NOT NULL|--------+---------------------------------------+ 
+   |cod_especialidade INT NOT NULL FK|/       |dsc_especialidade VARCHAR(100) NOT NULL| 
+   +---------------------------------+        +---------------------------------------+
+                |                  
+                |
+                | 
+   CONSULTA    /|\
+   +------------------------------+
+   |id_consulta INT NOT NULL AI PK|
+   +------------------------------+
+   |id_medico INT NOT NULL FK     |
+   |id_paciente INT NOT NULL FK   |
+   |data_consulta DATE NOT NULL   | 
+   +------------------------------+
+               \|/
+                |
+                |
+   PACIENTE     |
+   +-----------------------------------+
+   |id_paciente INT NOT NULL AI PK     |
+   +-----------------------------------+
+   |nome_paciente VARCHAR(100) NOT NULL|
+   +-----------------------------------+
+
+CREATE TABLE PACIENTE (id_paciente INTEGER NOT NULL, nome_paciente VARCHAR(100) NOT NULL,
+PRIMARY KEY (id_paciente));
+
+CREATE TABLE ESPECIALIDADE (cod_especialidade INTEGER NOT NULL, dsc_especialidade VARCHAR(100) NOT NULL,
+PRIAMRY KEY (cod_especialidade));
+
+CREATE TABLE MEDICO (cod_medico INTEGER, nome_medico VARCHAR(100) NOT NULL, cod_especialidade INT NOT NULL FK,
+PRIMARY KEY (cod_medico), FOREIGN KEY (cod_especialidade) REFERENCES ESPECIALIDADE (cod_especialidade));
+
+CREATE TABLE CONSULTA (id_consulta INTEGER NOT NULL, id_medico INT NOT NULL FK,id_paciente INT NOT NULL FK,
+data_consulta DATE NOT NULL, PRIMARY KEY (id_consulta), FOREIGN KEY (id_medico) REFERENCES MEDICO (id_medico),
+FOREIGN KEY (id_paciente) REFERENCES PACIENTE (id_paciente));

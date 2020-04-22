@@ -1,0 +1,43 @@
+PEDIDO                                      
+   +----------------------------------------+         FORNECEDOR
+   |cod_pedido INT NOT NULL AI PK           |         +------------------------------------+
+   +----------------------------------------+\        |cod_fornecedor INT NOT NULL AI PK   |
+   |dat_emissao DATE NOT NULL               |---------+------------------------------------+
+   |cod_fornecedor INT NOT NULL FK          |/        |nom_fornecedor VARCHAR(100) NOT NULL|
+   |vlr_total_pedido DECIMAL(12,2) DEFAULT 0|         |end_fornecedor VARCHAR(100)         |
+   +----------------------------------------+         +------------------------------------+ 
+                        |                  
+                        |
+                        | 
+   PEDIDO_MATERIAL     /|\
+   +-----------------------------------------+
+   |cod_pedido INT NOT NULL PFK              |
+   |cod_material INT NOT NULL PFK            |
+   +-----------------------------------------+
+   |qtde_material SMALLINT NOT NULL CHECK > 0|
+   |vlr_material DECIMAL(12,2) NOT NULL      | 
+   +-----------------------------------------+
+                  \|/
+                   |
+                   |
+   MATERIAL        |
+   +-----------------------------------+
+   |cod_material INT NOT NULL AI PK    |
+   +-----------------------------------+
+   |dsc_material VARCHAR(100) NOT NULL |
+   |vlr_unitario DECIMAL(12,2) NOT NULL|            
+   +-----------------------------------+
+
+CREATE TABLE FORNECEDOR (cod_fornecedor INTEGER NOT NULL, nom_fornecedor VARCHAR(100) NOT NULL, end_fornecedor VARCHAR(100),
+PRIMARY KEY (cod_fornecedor));
+
+CREATE TABLE MATERIAL (cod_mateiral INTEGER NOT NULL, dsc_material VARCHAR(100) NOT NULL, vlr_unitario DECIMAL(12,2) NOT NULL,
+PRIMARY KEY (cod_material));
+
+CREATE TABLE PEDIDO (cod_pedido INTEGER NOT NULL, dat_emissao DATE NOT NULL, cod_fornecedor INT NOT NULL, vlr_total_pedido DECIMAL(12,2) DEFAULT 0,
+PRIMARY KEY (cod_pedido), FOREIGN KEY (cod_fornecedor) REFERENCES FORNECEDOR (cod_fornecedor));
+
+CREATE TABLE PEDIDO_MATERIAL (cod_pedido INTEGER NOT NULL, cod_material INTEGER NOT NULL, qtde_material SMALLINT NOT NULL CHECK > 0,
+vlr_material DECIMAL(12,2) NOT NULL, PRIMARY KEY (cod_pedido, cod_material),
+FOREIGN KEY (cod_pedido) REFERENCES PEDIDO (cod_pedido),
+FOREIGN KEY (cod_material) REFERENCES MATERIAL (cod_material));

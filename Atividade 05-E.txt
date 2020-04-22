@@ -1,0 +1,46 @@
+e)
+   LIVRO                                      
+   +---------------------------------+        EDITORA
+   |id_livro INT AI PK               |        +---------------------------------+
+   +---------------------------------+\       |cod_editora INT NOT NULL AI PK   |
+   |num_isbn CHAR(13) NOT NULL UNIQUE|--------+---------------------------------+ 
+   |tit_livro VARCHAR(100) NOT NULL  |/       |nom_editora VARCHAR(100) NOT NULL| 
+   |num_paginas SMALLINT CHECK > 0   |        +---------------------------------+
+   |cod_editora INT NOT NULL FK      |
+   +---------------------------------+        
+                |                  
+                |
+                | 
+   EMPRESTIMO  /|\
+   +---------------------------------+
+   |id_emprestimo INT NOT NULL AI PK |
+   +---------------------------------+
+   |id_livro INT NOT NULL FK         |
+   |id_aluno INT NOT NULL FK         |
+   |dat_emprestimo DATE NOT NULL     | 
+   |dat_devolucao DATE               | 
+   +---------------------------------+
+               \|/
+                |
+                |
+   ALUNO        |
+   +---------------------------------+
+   |id_aluno INT NOT NULL AI PK      |
+   +---------------------------------+
+   |num_matricula INT NOT NULL UNIQUE|
+   |nom_aluno VARCHAR(100) NOT NULL  |
+   +---------------------------------+
+
+CREATE TABLE EDITORA (cod_editora INTEEGER NOT NULL, nom_editora VARCHAR(100) NOT NULL,
+PRIMARY KEY (cod_editora));
+
+CREATE TABLE ALUNO (id_aluno INTEEGER NOT NULL, num_matricula INT NOT NULL UNIQUE, nom_aluno VARCHAR(100) NOT NULL,
+PRIMARY KEY (id_aluno));
+
+CREATE TABLE LIVRO (id_livro INTEGER, num_isbn CHAR(13) NOT NULL UNIQUE, tit_livro VARCHAR(100) NOT NULL, 
+num_paginas SMALLINT CHECK > 0, cod_editora INT NOT NULL FK, PRIMARY KEY (id_livro),
+FOREIGN KEY (cod_editora) REFERENCES EDITORA (cod_editora));
+
+CREATE TABLE EMPRESTIMO (id_emprestimo INTEGER NOT NULL, id_livro INT NOT NULL FK, id_aluno INT NOT NULL FK,
+ dat_emprestimo DATE NOT NULL, dat_devolucao DATE, PRIMARY KEY (id_emprestimo),
+FOREIGN KEY (id_livro) REFERENCES LIVRO (id_livro) FOREIGN KEY (id_aluno) REFERENCES ALUNO (id_aluno));
